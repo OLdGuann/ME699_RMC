@@ -1,92 +1,168 @@
 <?xml version="1.0"?>
 
-<robot name="ThreeLinkPlanar">
-  <link name="base_link">
+<robot name="Project1">
+  <link name="MiddleBase_link">
     <visual>
-      <geometry> <box size="0.4 0.2 0.6" />  </geometry>
+      <origin ryp = "0 0 0" xyz = "0 0 0" />
+      <geometry>
+        <cylinder radius = "1" length = "2" />
+      </geometry>
       <material name="green"><color rgba="0 1 0 1" />  </material>
     </visual>
   </link>
 
-  <link name="upper_link">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="1" />
-      <inertia ixx="1" ixy="0" ixz="0" iyy="0.083" iyz="0" izz="1" />
-    </inertial>
+  <joint name="Waist" type="revolute">
+    <parent link="MiddleBase_link" />
+    <child link="Spine_link" />
+    <origin xyz="0 0 1" rpy = "0 0 0"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="Spine_link">
     <visual>
-         <origin xyz="0.5 0 0"/>
-         <geometry> <box size="1.0 0.05 0.05" /></geometry>
+         <origin xyz="0 0 15"/>
+         <geometry> <box size="2 2 30" /></geometry>
          <material name="red">  <color rgba="1 0 0 1" /></material>
     </visual>
   </link>
-  <joint name="shoulder" type="continuous">
-    <parent link="base_link" />
-    <child link="upper_link" />
-    <origin xyz="0 0 0.3" rpy = "0 0 0"/>
+
+  <joint name="Scapula" type="prismatic">
+    <parent link="Spine_link" />
+    <child link="Shoulder" />
+    <origin xyz="0 0 30" rpy = "0 0 0"/>
     <axis xyz="0 0 1" />
-    <dynamics damping="0.1" />
   </joint>
 
-  <link name="lower_link">
-    <inertial>
-      <origin xyz="0.5 0 0" rpy="0 0 0" />
-      <mass value="1" />
-      <inertia ixx="1" ixy="0" ixz="0" iyy="0.33" iyz="0" izz="1" />
-    </inertial>
+  <link name="Shoulder">
     <visual>
-      <origin xyz="0.5 0 0 "/>
-      <geometry>  <box size="1.0 0.05 0.05" /> </geometry>
+      <origin xyz="0 0 0.5 "/>
+      <geometry>  <box size="26 1 1" /> </geometry>
       <material name="blue"> <color rgba="0 0 1 1" /> </material>
     </visual>
   </link>
 
-  <joint name="elbow" type="continuous">
-    <parent link="upper_link" />
-    <child link="lower_link" />
-    <origin xyz="1.0 0.0 0" rpy="0.0 0 0 "/>
+  <joint name="Shoulder_Right_1" type="revolute">
+    <parent link="Shoulder" />
+    <child link="Upper_right_arm1" />
+    <origin xyz="12 0 0" rpy = "0 0 0"/>
     <axis xyz="0 0 1" />
-    <dynamics damping="0.1" />
   </joint>
 
-  <link name="lowest_link">
-    <inertial>
-      <origin xyz="0.5 0 0" rpy="0 0 0" />
-      <mass value="1" />
-      <inertia ixx="1" ixy="0" ixz="0" iyy="0.33" iyz="0" izz="1" />
-    </inertial>
+  <link name="Upper_right_arm1">
     <visual>
-      <origin xyz="0.5 0 0 "/>
-      <geometry>  <box size="1.05 0.05 0.05" /> </geometry>
-      <material name="green"> <color rgba="0 1 0 1" /> </material>
+      <origin xyz="0 0 -1 "/>
+      <geometry>  <cylinder radius = "1" length = "2" /> </geometry>
+      <material name="green"><color rgba="0 1 0 1" />  </material>
     </visual>
   </link>
 
-  <joint name="wrist" type="continuous">
-    <parent link="lower_link" />
-    <child link="lowest_link" />
-    <origin xyz="1.0 0.0 0" rpy="0.0 0 0 "/>
+  <joint name="Shoulder_Left_1" type="revolute">
+    <parent link="Shoulder" />
+    <child link="Upper_left_arm1" />
+    <origin xyz="-12 0 0" rpy = "0 0 0"/>
     <axis xyz="0 0 1" />
-    <dynamics damping="0.1" />
   </joint>
 
-  <link name="endeffector">
-    <inertial>
-      <origin xyz="0.0 0 0" rpy="0 0 0" />
-      <mass value="1" />
-      <inertia ixx="1" ixy="0" ixz="0" iyy="0.33" iyz="0" izz="1" />
-    </inertial>
+  <link name="Upper_left_arm1">
     <visual>
-      <origin xyz="0.0 0 0 "/>
-      <geometry>  <box size="0.05 0.05 0.05" /> </geometry>
+      <origin xyz="0 0 -1 "/>
+      <geometry>  <cylinder radius = "1" length = "2" /> </geometry>
+      <material name="green"><color rgba="0 1 0 1" />  </material>
+    </visual>
+  </link>
+
+  <joint name="Shoulder_Left_2" type="revolute">
+    <parent link="Upper_left_arm1" />
+    <child link="Upper_left_arm2" />
+    <origin xyz="0 0 -2" rpy = "0 0 0"/>
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="Upper_left_arm2">
+    <visual>
+      <origin xyz="0 0 -1 " rpy = "0 1.57 0"/>
+      <geometry>  <cylinder radius = "1" length = "2" /> </geometry>
+      <material name="blue"> <color rgba="0 0 1 1" /> </material>
+    </visual>
+  </link>
+
+  <joint name="Shoulder_Right_2" type="revolute">
+    <parent link="Upper_right_arm1" />
+    <child link="Upper_right_arm2" />
+    <origin xyz="0 0 -2" rpy = "0 0 0"/>
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="Upper_right_arm2">
+    <visual>
+      <origin xyz="0 0 -1 " rpy = "0 1.57 0"/>
+      <geometry>  <cylinder radius = "1" length = "2" /> </geometry>
+      <material name="blue"> <color rgba="0 0 1 1" /> </material>
+    </visual>
+  </link>
+
+  <joint name="Shoulder_Left_3" type="revolute">
+    <parent link="Upper_left_arm2" />
+    <child link="Upper_left_arm3" />
+    <origin xyz="0 0 -2" rpy = "0 0 0"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="Upper_left_arm3">
+    <visual>
+      <origin xyz="0 0 -10 " rpy = "0 0 0"/>
+      <geometry>  <cylinder radius = "1" length = "20" /> </geometry>
       <material name="red"> <color rgba="1 0 0 1" /> </material>
     </visual>
   </link>
 
-  <joint name="endjoint" type="fixed">
-    <parent link="lowest_link" />
-    <child link="endeffector" />
-    <origin xyz="1.0 0.0 0" rpy="0.0 0 0 "/>
+  <joint name="Shoulder_Right_3" type="revolute">
+    <parent link="Upper_right_arm2" />
+    <child link="Upper_right_arm3" />
+    <origin xyz="0 0 -2" rpy = "0 0 0"/>
+    <axis xyz="0 0 1" />
   </joint>
+
+  <link name="Upper_right_arm3">
+    <visual>
+      <origin xyz="0 0 -10 " rpy = "0 0 0"/>
+      <geometry>  <cylinder radius = "1" length = "20" /> </geometry>
+      <material name="red"> <color rgba="1 0 0 1" /> </material>
+    </visual>
+  </link>
+
+  <joint name="Elbow_Left" type="revolute">
+    <parent link="Upper_left_arm3" />
+    <child link="Lower_left" />
+    <origin xyz="0 0 -20" rpy = "0 0 0"/>
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="Lower_left">
+    <visual>
+      <origin xyz="0 0 -12.5 " rpy = "0 0 0"/>
+      <geometry>  <cylinder radius = "1" length = "25" /> </geometry>
+      <material name="green"> <color rgba="0 1 0 1" /> </material>
+    </visual>
+  </link>
+
+  <joint name="Elbow_Right" type="revolute">
+    <parent link="Upper_right_arm3" />
+    <child link="Lower_right" />
+    <origin xyz="0 0 -20" rpy = "0 0 0"/>
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="Lower_right">
+    <visual>
+      <origin xyz="0 0 -12.5 " rpy = "0 0 0"/>
+      <geometry>  <cylinder radius = "1" length = "25" /> </geometry>
+      <material name="green"> <color rgba="0 1 0 1" /> </material>
+    </visual>
+  </link>
+
+
+
 
 </robot>
